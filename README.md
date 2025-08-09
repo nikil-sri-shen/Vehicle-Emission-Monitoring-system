@@ -194,7 +194,7 @@ PUCC/
 
 ## 📄 License
 
-This project is licensed under the ISC License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/nikil-sri-shen/Vehicle-Emission-Monitoring-system/blob/main/LICENSE) file for details.
 
 ## 📞 Support
 
