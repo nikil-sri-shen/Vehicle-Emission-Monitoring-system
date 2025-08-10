@@ -119,8 +119,8 @@ PUCC/
           │   Vehicle       │───▶│  Edge Devices   │───▶│  Noise Filter   │
           │   Sensors       │    │  (Data Sim)     │    │  (Backend)      │
           └─────────────────┘    └─────────────────┘    └─────────┬───────┘
-                                                                  │
-                                                                  ▼
+              ▲                                                   │
+              │                                                   ▼
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   NS-3          │◀───│   Blockchain    │◀───│   Data          │───▶│   ML Engine     │
 │   Network Sim   │    │   (Smart        │    │   Validation    │    │   (XGBoost)     │
@@ -204,11 +204,18 @@ Data Flow:
    # Install Python dependencies
    pip install xgboost scikit-learn pandas numpy joblib
 
-   # Train the model (provide your dataset)
-   python predictive_engine.py --train_csv path/to/your/dataset.csv --do_train --do_anomaly
+   # Train the model
+   python train_model.py --dataset vca_uk_emissions.csv
 
    # Simulate real-time processing
    python predictive_engine.py --train_csv path/to/your/dataset.csv --simulate_realtime
+   ```
+
+7. **Set up Machine Learning Engine**
+
+   ```bash
+   npm install
+   node sensor-bridge.js --sensors=co,nox,pm
    ```
 
 ## 📊 Features
