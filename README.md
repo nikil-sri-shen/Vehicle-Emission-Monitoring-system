@@ -9,6 +9,7 @@ This project implements a decentralized Pollution Under Control Certificate (PUC
 - **Blockchain technology** for transparent and immutable emission records
 - **Network simulation** for testing vehicular communication protocols
 - **Real-time data filtering** for noise reduction in emission measurements
+- **Machine Learning** for predictive analytics and anomaly detection
 - **Smart contracts** for automated compliance verification and rewards
 
 ## 📁 Project Structure
@@ -16,6 +17,8 @@ This project implements a decentralized Pollution Under Control Certificate (PUC
 ```
 PUCC/
 ├── README.md                    # Project documentation and usage instructions
+├── LICENSE                      # MIT License for the project
+├── .gitignore                   # Git ignore rules for all project components
 ├── data_simulation/             # Vehicle emission data simulation components
 │   ├── emission_client          # Compiled emission data client
 │   └── emission_client.cpp      # C++ source for emission data generation
@@ -34,6 +37,8 @@ PUCC/
 │       └── ns-sim.cpp           # Basic network simulation (needs correction)
 ├── solidity/                    # Blockchain smart contracts
 │   └── EmissionMonitoring.sol   # Main smart contract for emission monitoring
+├── xgboost/                     # Machine Learning and Predictive Analytics
+│   └── predictive_engine.py     # XGBoost-based emission prediction and anomaly detection
 └── .vscode/                     # VS Code configuration files
 ```
 
@@ -84,20 +89,58 @@ PUCC/
   - Fraud prevention with ECDSA signature verification
   - Administrative controls and emergency pause functionality
 
+### 🤖 Machine Learning Engine (`xgboost/`)
+
+- **Purpose**: Predictive analytics and intelligent emission monitoring
+- **Tech Stack**: Python, XGBoost, Scikit-learn, Pandas, NumPy
+- **Component**: `predictive_engine.py`
+- **Key Features**:
+  - **Predictive Modeling**: XGBoost regression for CO2 emission prediction
+  - **Hyperparameter Optimization**: Grid search with 5-fold cross-validation
+  - **Anomaly Detection**: Isolation Forest for identifying unusual emission patterns
+  - **Incremental Learning**: Continuous model updates with new data
+  - **Maintenance Prediction**: Decision tree for estimating service intervals
+  - **Real-time Processing**: Processes records every 15 minutes
+  - **Multi-fuel Support**: Handles Petrol, Diesel, and CNG vehicles
+- **ML Pipeline**:
+  - Data preprocessing and feature engineering
+  - Automated model training and validation
+  - Real-time inference and decision making
+  - Model persistence and incremental updates
+
 ## 🏗️ System Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Vehicle       │───▶│  Edge Devices   │───▶│  Noise Filter   │
-│   Sensors       │    │  (Data Sim)     │    │  (Backend)      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                                        │
-                                                        ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   NS-3          │    │   Blockchain    │◀───│   Data          │
-│   Network Sim   │    │   (Smart        │    │   Validation    │
-└─────────────────┘    │   Contracts)    │    └─────────────────┘
-                       └─────────────────┘
+                    ┌─────────────────────────────────────────────────────────┐
+                    │                 PUCC ECOSYSTEM                          │
+                    └─────────────────────────────────────────────────────────┘
+                                                │
+          ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+          │   Vehicle       │───▶│  Edge Devices   │───▶│  Noise Filter   │
+          │   Sensors       │    │  (Data Sim)     │    │  (Backend)      │
+          └─────────────────┘    └─────────────────┘    └─────────┬───────┘
+                                                                  │
+                                                                  ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   NS-3          │◀───│   Blockchain    │◀───│   Data          │───▶│   ML Engine     │
+│   Network Sim   │    │   (Smart        │    │   Validation    │    │   (XGBoost)     │
+└─────────────────┘    │   Contracts)    │    └─────────────────┘    └─────────┬───────┘
+                       └─────────────────┘                                      │
+                                 ▲                                              │
+                                 │                                              ▼
+                       ┌─────────────────┐                          ┌─────────────────┐
+                       │      MVI        │                          │   Predictive    │
+                       │  Endorsement    │                          │   Analytics     │
+                       └─────────────────┘                          │   • Anomaly     │
+                                                                    │   • Compliance  │
+                                                                    │   • Maintenance │
+                                                                    └─────────────────┘
+
+Data Flow:
+1. Vehicle sensors → Edge simulation → Noise filtering
+2. Filtered data → ML analysis → Predictive insights
+3. Validated data → Blockchain storage → Smart contract verification
+4. MVI endorsement → Token rewards → Network simulation validation
 ```
 
 ## 🚀 Getting Started
@@ -105,6 +148,7 @@ PUCC/
 ### Prerequisites
 
 - Node.js (v16 or higher)
+- Python 3.8+ with pip
 - GCC compiler for C++ components
 - NS-3 simulator (for network simulation)
 - Solidity development environment (Hardhat/Truffle)
@@ -145,11 +189,26 @@ PUCC/
    ```
 
 5. **Deploy smart contracts**
+
    ```bash
    cd solidity
    # Deploy using your preferred framework
    npx hardhat compile
    npx hardhat deploy
+   ```
+
+6. **Set up Machine Learning Engine**
+
+   ```bash
+   cd xgboost
+   # Install Python dependencies
+   pip install xgboost scikit-learn pandas numpy joblib
+
+   # Train the model (provide your dataset)
+   python predictive_engine.py --train_csv path/to/your/dataset.csv --do_train --do_anomaly
+
+   # Simulate real-time processing
+   python predictive_engine.py --train_csv path/to/your/dataset.csv --simulate_realtime
    ```
 
 ## 📊 Features
@@ -161,13 +220,18 @@ PUCC/
 - Express.js API for data processing
 - Comprehensive smart contract for emission monitoring
 - Network simulation framework setup
+- **XGBoost-based predictive analytics engine**
+- **Anomaly detection with Isolation Forest**
+- **Real-time emission monitoring and prediction**
+- **Maintenance interval prediction**
 
 ### 🚧 In Development
 
 - Integration between all components
 - Web dashboard for monitoring
 - Mobile application for vehicle owners
-- Advanced ML-based noise filtering
+- Advanced ML model optimization
+- Real-time data pipeline integration
 
 ## 🔐 Security Features
 
@@ -183,6 +247,28 @@ PUCC/
 2. **Regulatory Authorities**: Monitor compliance and issue endorsements
 3. **Environmental Agencies**: Track pollution trends and enforce standards
 4. **Research Institutions**: Analyze emission patterns and effectiveness
+5. **Service Centers**: Receive predictive maintenance alerts and recommendations
+6. **Insurance Companies**: Access verified emission data for premium calculations
+
+## 🧠 Machine Learning Features
+
+### **Predictive Analytics**
+
+- **CO2 Emission Prediction**: Accurate forecasting based on vehicle characteristics
+- **Compliance Forecasting**: Predicts future compliance status
+- **Maintenance Scheduling**: Intelligent service interval recommendations
+
+### **Anomaly Detection**
+
+- **Real-time Monitoring**: Identifies unusual emission patterns
+- **Fraud Prevention**: Detects potentially manipulated sensor data
+- **Quality Assurance**: Flags readings requiring additional verification
+
+### **Continuous Learning**
+
+- **Incremental Updates**: Models improve with new data
+- **Cross-validation**: Robust model validation with 5-fold CV
+- **Hyperparameter Optimization**: Automated parameter tuning
 
 ## 🤝 Contributing
 
